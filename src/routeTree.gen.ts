@@ -20,6 +20,7 @@ import { Route as QuanTriRouteImport } from './routes/quan-tri'
 import { Route as SoTuVungRouteImport } from './routes/so-tu-vung'
 import { Route as TroChoiRouteImport } from './routes/tro-choi'
 import { Route as TruyenKeRouteImport } from './routes/truyen-ke'
+import { Route as LessonIdRouteImport } from './routes/lesson.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,11 @@ const TruyenKeRoute = TruyenKeRouteImport.update({
   path: '/truyen-ke',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LessonIdRoute = LessonIdRouteImport.update({
+  id: '/lesson/$id',
+  path: '/lesson/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/so-tu-vung': typeof SoTuVungRoute
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/so-tu-vung': typeof SoTuVungRoute
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/so-tu-vung': typeof SoTuVungRoute
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/so-tu-vung'
     | '/tro-choi'
     | '/truyen-ke'
+    | '/lesson/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/so-tu-vung'
     | '/tro-choi'
     | '/truyen-ke'
+    | '/lesson/$id'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/so-tu-vung'
     | '/tro-choi'
     | '/truyen-ke'
+    | '/lesson/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   SoTuVungRoute: typeof SoTuVungRoute
   TroChoiRoute: typeof TroChoiRoute
   TruyenKeRoute: typeof TruyenKeRoute
+  LessonIdRoute: typeof LessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TruyenKeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lesson/$id': {
+      id: '/lesson/$id'
+      path: '/lesson/$id'
+      fullPath: '/lesson/$id'
+      preLoaderRoute: typeof LessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   SoTuVungRoute: SoTuVungRoute,
   TroChoiRoute: TroChoiRoute,
   TruyenKeRoute: TruyenKeRoute,
+  LessonIdRoute: LessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
