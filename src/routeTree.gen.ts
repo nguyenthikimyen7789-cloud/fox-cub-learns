@@ -10,33 +10,180 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BaiHatRouteImport } from './routes/bai-hat'
+import { Route as DiemDanhRouteImport } from './routes/diem-danh'
+import { Route as PhonicsRouteImport } from './routes/phonics'
+import { Route as PinyinRouteImport } from './routes/pinyin'
+import { Route as ProZoneRouteImport } from './routes/pro-zone'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as QuanTriRouteImport } from './routes/quan-tri'
+import { Route as SoTuVungRouteImport } from './routes/so-tu-vung'
+import { Route as TroChoiRouteImport } from './routes/tro-choi'
+import { Route as TruyenKeRouteImport } from './routes/truyen-ke'
+import { Route as LessonIdRouteImport } from './routes/lesson.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaiHatRoute = BaiHatRouteImport.update({
+  id: '/bai-hat',
+  path: '/bai-hat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiemDanhRoute = DiemDanhRouteImport.update({
+  id: '/diem-danh',
+  path: '/diem-danh',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhonicsRoute = PhonicsRouteImport.update({
+  id: '/phonics',
+  path: '/phonics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PinyinRoute = PinyinRouteImport.update({
+  id: '/pinyin',
+  path: '/pinyin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProZoneRoute = ProZoneRouteImport.update({
+  id: '/pro-zone',
+  path: '/pro-zone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuanTriRoute = QuanTriRouteImport.update({
+  id: '/quan-tri',
+  path: '/quan-tri',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoTuVungRoute = SoTuVungRouteImport.update({
+  id: '/so-tu-vung',
+  path: '/so-tu-vung',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TroChoiRoute = TroChoiRouteImport.update({
+  id: '/tro-choi',
+  path: '/tro-choi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TruyenKeRoute = TruyenKeRouteImport.update({
+  id: '/truyen-ke',
+  path: '/truyen-ke',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LessonIdRoute = LessonIdRouteImport.update({
+  id: '/lesson/$id',
+  path: '/lesson/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bai-hat': typeof BaiHatRoute
+  '/diem-danh': typeof DiemDanhRoute
+  '/phonics': typeof PhonicsRoute
+  '/pinyin': typeof PinyinRoute
+  '/pro-zone': typeof ProZoneRoute
+  '/profile': typeof ProfileRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/so-tu-vung': typeof SoTuVungRoute
+  '/tro-choi': typeof TroChoiRoute
+  '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bai-hat': typeof BaiHatRoute
+  '/diem-danh': typeof DiemDanhRoute
+  '/phonics': typeof PhonicsRoute
+  '/pinyin': typeof PinyinRoute
+  '/pro-zone': typeof ProZoneRoute
+  '/profile': typeof ProfileRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/so-tu-vung': typeof SoTuVungRoute
+  '/tro-choi': typeof TroChoiRoute
+  '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bai-hat': typeof BaiHatRoute
+  '/diem-danh': typeof DiemDanhRoute
+  '/phonics': typeof PhonicsRoute
+  '/pinyin': typeof PinyinRoute
+  '/pro-zone': typeof ProZoneRoute
+  '/profile': typeof ProfileRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/so-tu-vung': typeof SoTuVungRoute
+  '/tro-choi': typeof TroChoiRoute
+  '/truyen-ke': typeof TruyenKeRoute
+  '/lesson/$id': typeof LessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/bai-hat'
+    | '/diem-danh'
+    | '/phonics'
+    | '/pinyin'
+    | '/pro-zone'
+    | '/profile'
+    | '/quan-tri'
+    | '/so-tu-vung'
+    | '/tro-choi'
+    | '/truyen-ke'
+    | '/lesson/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/bai-hat'
+    | '/diem-danh'
+    | '/phonics'
+    | '/pinyin'
+    | '/pro-zone'
+    | '/profile'
+    | '/quan-tri'
+    | '/so-tu-vung'
+    | '/tro-choi'
+    | '/truyen-ke'
+    | '/lesson/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/bai-hat'
+    | '/diem-danh'
+    | '/phonics'
+    | '/pinyin'
+    | '/pro-zone'
+    | '/profile'
+    | '/quan-tri'
+    | '/so-tu-vung'
+    | '/tro-choi'
+    | '/truyen-ke'
+    | '/lesson/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BaiHatRoute: typeof BaiHatRoute
+  DiemDanhRoute: typeof DiemDanhRoute
+  PhonicsRoute: typeof PhonicsRoute
+  PinyinRoute: typeof PinyinRoute
+  ProZoneRoute: typeof ProZoneRoute
+  ProfileRoute: typeof ProfileRoute
+  QuanTriRoute: typeof QuanTriRoute
+  SoTuVungRoute: typeof SoTuVungRoute
+  TroChoiRoute: typeof TroChoiRoute
+  TruyenKeRoute: typeof TruyenKeRoute
+  LessonIdRoute: typeof LessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +195,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bai-hat': {
+      id: '/bai-hat'
+      path: '/bai-hat'
+      fullPath: '/bai-hat'
+      preLoaderRoute: typeof BaiHatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diem-danh': {
+      id: '/diem-danh'
+      path: '/diem-danh'
+      fullPath: '/diem-danh'
+      preLoaderRoute: typeof DiemDanhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/phonics': {
+      id: '/phonics'
+      path: '/phonics'
+      fullPath: '/phonics'
+      preLoaderRoute: typeof PhonicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pinyin': {
+      id: '/pinyin'
+      path: '/pinyin'
+      fullPath: '/pinyin'
+      preLoaderRoute: typeof PinyinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pro-zone': {
+      id: '/pro-zone'
+      path: '/pro-zone'
+      fullPath: '/pro-zone'
+      preLoaderRoute: typeof ProZoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quan-tri': {
+      id: '/quan-tri'
+      path: '/quan-tri'
+      fullPath: '/quan-tri'
+      preLoaderRoute: typeof QuanTriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/so-tu-vung': {
+      id: '/so-tu-vung'
+      path: '/so-tu-vung'
+      fullPath: '/so-tu-vung'
+      preLoaderRoute: typeof SoTuVungRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tro-choi': {
+      id: '/tro-choi'
+      path: '/tro-choi'
+      fullPath: '/tro-choi'
+      preLoaderRoute: typeof TroChoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/truyen-ke': {
+      id: '/truyen-ke'
+      path: '/truyen-ke'
+      fullPath: '/truyen-ke'
+      preLoaderRoute: typeof TruyenKeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lesson/$id': {
+      id: '/lesson/$id'
+      path: '/lesson/$id'
+      fullPath: '/lesson/$id'
+      preLoaderRoute: typeof LessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BaiHatRoute: BaiHatRoute,
+  DiemDanhRoute: DiemDanhRoute,
+  PhonicsRoute: PhonicsRoute,
+  PinyinRoute: PinyinRoute,
+  ProZoneRoute: ProZoneRoute,
+  ProfileRoute: ProfileRoute,
+  QuanTriRoute: QuanTriRoute,
+  SoTuVungRoute: SoTuVungRoute,
+  TroChoiRoute: TroChoiRoute,
+  TruyenKeRoute: TruyenKeRoute,
+  LessonIdRoute: LessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
