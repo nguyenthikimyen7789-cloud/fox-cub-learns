@@ -73,22 +73,32 @@ export function DialogueTab({
               <div className="min-w-0 flex-1">
                 {mode === "tat" ? (
                   <p className="text-sm font-bold text-muted-foreground">🙈 Chữ đang tắt — hãy nghe và nói theo.</p>
+                ) : lang.mode === "Anh" ? (
+                  <>
+                    <p className="font-bold text-foreground">
+                      <WordText text={l.en} lang="Anh" vocab={lesson.vocab} />
+                    </p>
+                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
+                  </>
                 ) : (
                   <>
-                    <p className="font-bold text-foreground">{l.en}</p>
-                    <p className="font-bold text-foreground/80">
-                      {l.zh} <span className="text-sm text-muted-foreground">({l.pinyin})</span>
+                    <p className="text-sm font-bold text-primary">{l.pinyin}</p>
+                    <p className="font-bold text-foreground">
+                      <WordText text={l.zh} lang="Trung" vocab={lesson.vocab} />
                     </p>
-                    {mode === "dich" ? <p className="text-sm text-muted-foreground">{l.vi}</p> : null}
+                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
                   </>
                 )}
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button onClick={() => speak(l.en, "en-US")} className="rounded-full bg-pastel-sky px-3 py-1 text-xs font-bold">
-                    🔊 Anh
+                  <button
+                    onClick={() =>
+                      lang.mode === "Anh" ? speak(l.en, "en-US") : speak(l.zh, "zh-CN")
+                    }
+                    className="rounded-full bg-pastel-sky px-3 py-1 text-xs font-bold"
+                  >
+                    🔊 Nghe câu
                   </button>
-                  <button onClick={() => speak(l.zh, "zh-CN")} className="rounded-full bg-pastel-mint px-3 py-1 text-xs font-bold">
-                    🔊 Trung
-                  </button>
+
                   <button
                     onClick={() => record(i)}
                     className={`rounded-full px-3 py-1 text-xs font-extrabold ${
