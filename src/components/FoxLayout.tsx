@@ -38,6 +38,25 @@ export function FoxLayout({ children }: { children: ReactNode }) {
               <span className="block text-xs text-muted-foreground">Song ngữ Anh – Trung cho cả nhà</span>
             </span>
           </Link>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 rounded-full border-2 border-border bg-secondary p-1">
+              {(["Anh", "Trung"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => lang.setMode(m)}
+                  className={`rounded-full px-3 py-1 text-xs font-extrabold transition ${
+                    lang.mode === m
+                      ? "bg-primary text-primary-foreground shadow-soft"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {m === "Anh" ? "🇬🇧" : "🇨🇳"}
+                  <span className="ml-1 hidden sm:inline">Tiếng {m}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
 
           {fox.ready && current ? (
             <button
