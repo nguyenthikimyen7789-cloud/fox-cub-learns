@@ -51,12 +51,14 @@ export type Story = {
   color: string;
   emoji: string;
   summary: string;
+  lang: "Anh" | "Trung";
   lines: { en: string; zh: string; pinyin: string; vi: string }[];
 };
 
 export const stories: Story[] = [
   {
     id: "little-fox-garden",
+    lang: "Anh",
     title: "Cáo Nhỏ và khu vườn",
     titleEn: "Little Fox in the Garden",
     titleZh: "小狐狸的花园",
@@ -74,6 +76,7 @@ export const stories: Story[] = [
   },
   {
     id: "rainy-day",
+    lang: "Trung",
     title: "Ngày mưa của Mèo Mão",
     titleEn: "A Rainy Day",
     titleZh: "下雨天",
@@ -91,6 +94,7 @@ export const stories: Story[] = [
   },
   {
     id: "market-day",
+    lang: "Trung",
     title: "Đi chợ cùng bà",
     titleEn: "Market Day",
     titleZh: "赶集的日子",
@@ -108,6 +112,7 @@ export const stories: Story[] = [
   },
   {
     id: "space-trip",
+    lang: "Anh",
     title: "Chuyến bay lên mặt trăng",
     titleEn: "Trip to the Moon",
     titleZh: "月球之旅",

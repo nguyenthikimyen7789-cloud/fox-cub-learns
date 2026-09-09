@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useFox } from "@/lib/foxstore";
 import { learners } from "@/lib/foxdata";
+import { useLangMode } from "@/lib/langstore";
 
 const mainTabs = [
   { to: "/truyen-ke", label: "Truyện kể", emoji: "📖" },
@@ -10,18 +11,21 @@ const mainTabs = [
 ] as const;
 
 const subLinks = [
-  { to: "/phonics", label: "Bảng Phonics" },
-  { to: "/pinyin", label: "Bảng Pinyin" },
-  { to: "/so-tu-vung", label: "Sổ từ vựng" },
-  { to: "/diem-danh", label: "Điểm danh" },
-  { to: "/quan-tri", label: "Phòng quản trị 🔒" },
+  { to: "/phonics", label: "Bảng Phonics", only: "Anh" },
+  { to: "/pinyin", label: "Bảng Pinyin", only: "Trung" },
+  { to: "/so-tu-vung", label: "Sổ từ vựng", only: null },
+  { to: "/diem-danh", label: "Điểm danh", only: null },
+  { to: "/quan-tri", label: "Phòng quản trị 🔒", only: null },
 ] as const;
 
 export function FoxLayout({ children }: { children: ReactNode }) {
   const fox = useFox();
+  const lang = useLangMode();
   const navigate = useNavigate();
   const current = learners.find((l) => l.id === fox.state.currentId);
   const stars = current ? (fox.state.stars[current.id] ?? 0) : 0;
+  const visibleSubLinks = subLinks.filter((s) => !s.only || s.only === lang.mode);
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,6 +38,25 @@ export function FoxLayout({ children }: { children: ReactNode }) {
               <span className="block text-xs text-muted-foreground">Song ngữ Anh – Trung cho cả nhà</span>
             </span>
           </Link>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 rounded-full border-2 border-border bg-secondary p-1">
+              {(["Anh", "Trung"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => lang.setMode(m)}
+                  className={`rounded-full px-3 py-1 text-xs font-extrabold transition ${
+                    lang.mode === m
+                      ? "bg-primary text-primary-foreground shadow-soft"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {m === "Anh" ? "🇬🇧" : "🇨🇳"}
+                  <span className="ml-1 hidden sm:inline">Tiếng {m}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
 
           {fox.ready && current ? (
             <button
@@ -71,7 +94,7 @@ export function FoxLayout({ children }: { children: ReactNode }) {
             ))}
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            {subLinks.map((s) => (
+            {visibleSubLinks.map((s) => (
               <Link
                 key={s.to}
                 to={s.to}

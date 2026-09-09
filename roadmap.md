@@ -14,3 +14,7 @@
 - [x] Tầng 1: tốc độ, Nghe MP3, In A4/sách mini, tự động chuyển bài
 - [x] Tầng 2: 5 tab tương tác
 - [x] Lưu tiến độ/sao/từ vào localStorage
+
+## Ngôn ngữ
+- [x] Công tắc 🇬🇧/🇨🇳 trên header, lưu localStorage
+- [x] Lọc truyện, bài hát và ẩn/hiện Phonics–Pinyin theo chế độ
