@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import type { Lesson } from "@/lib/lessondata";
 import { speak } from "@/lib/speak";
 import { useFox } from "@/lib/foxstore";
@@ -115,6 +116,7 @@ export function DialogueTab({
                     onClick={() => {
                       const w = lesson.vocab[i % lesson.vocab.length]!;
                       fox.addVocab({ en: w.en, zh: w.zh, pinyin: w.pinyin, vi: w.vi });
+                      toast.success("Đã lưu từ vựng!");
                     }}
                     className="rounded-full bg-accent px-3 py-1 text-xs font-extrabold text-accent-foreground"
                   >
