@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import type { Lesson } from "@/lib/lessondata";
 import { speak } from "@/lib/speak";
 import { useFox } from "@/lib/foxstore";
+import { useLangMode } from "@/lib/langstore";
+import { WordText } from "./WordText";
+
 
 type Mode = "goc" | "dich" | "tat";
 
@@ -15,7 +19,9 @@ export function DialogueTab({
   onJump: (i: number) => void;
 }) {
   const fox = useFox();
+  const lang = useLangMode();
   const [mode, setMode] = useState<Mode>("dich");
+
   const [recording, setRecording] = useState<number | null>(null);
   const [recorded, setRecorded] = useState<number[]>([]);
 
@@ -68,22 +74,32 @@ export function DialogueTab({
               <div className="min-w-0 flex-1">
                 {mode === "tat" ? (
                   <p className="text-sm font-bold text-muted-foreground">🙈 Chữ đang tắt — hãy nghe và nói theo.</p>
+                ) : lang.mode === "Anh" ? (
+                  <>
+                    <p className="font-bold text-foreground">
+                      <WordText text={l.en} lang="Anh" vocab={lesson.vocab} />
+                    </p>
+                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
+                  </>
                 ) : (
                   <>
-                    <p className="font-bold text-foreground">{l.en}</p>
-                    <p className="font-bold text-foreground/80">
-                      {l.zh} <span className="text-sm text-muted-foreground">({l.pinyin})</span>
+                    <p className="text-sm font-bold text-primary">{l.pinyin}</p>
+                    <p className="font-bold text-foreground">
+                      <WordText text={l.zh} lang="Trung" vocab={lesson.vocab} />
                     </p>
-                    {mode === "dich" ? <p className="text-sm text-muted-foreground">{l.vi}</p> : null}
+                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
                   </>
                 )}
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button onClick={() => speak(l.en, "en-US")} className="rounded-full bg-pastel-sky px-3 py-1 text-xs font-bold">
-                    🔊 Anh
+                  <button
+                    onClick={() =>
+                      lang.mode === "Anh" ? speak(l.en, "en-US") : speak(l.zh, "zh-CN")
+                    }
+                    className="rounded-full bg-pastel-sky px-3 py-1 text-xs font-bold"
+                  >
+                    🔊 Nghe câu
                   </button>
-                  <button onClick={() => speak(l.zh, "zh-CN")} className="rounded-full bg-pastel-mint px-3 py-1 text-xs font-bold">
-                    🔊 Trung
-                  </button>
+
                   <button
                     onClick={() => record(i)}
                     className={`rounded-full px-3 py-1 text-xs font-extrabold ${
@@ -100,6 +116,7 @@ export function DialogueTab({
                     onClick={() => {
                       const w = lesson.vocab[i % lesson.vocab.length]!;
                       fox.addVocab({ en: w.en, zh: w.zh, pinyin: w.pinyin, vi: w.vi });
+                      toast.success("Đã lưu từ vựng!");
                     }}
                     className="rounded-full bg-accent px-3 py-1 text-xs font-extrabold text-accent-foreground"
                   >
