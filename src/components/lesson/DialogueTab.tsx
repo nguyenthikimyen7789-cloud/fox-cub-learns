@@ -18,7 +18,9 @@ export function DialogueTab({
   onJump: (i: number) => void;
 }) {
   const fox = useFox();
+  const lang = useLangMode();
   const [mode, setMode] = useState<Mode>("dich");
+
   const [recording, setRecording] = useState<number | null>(null);
   const [recorded, setRecorded] = useState<number[]>([]);
 
