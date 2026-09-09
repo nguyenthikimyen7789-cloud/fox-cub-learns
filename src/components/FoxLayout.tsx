@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useFox } from "@/lib/foxstore";
 import { learners } from "@/lib/foxdata";
+import { useLangMode } from "@/lib/langstore";
 
 const mainTabs = [
   { to: "/truyen-ke", label: "Truyện kể", emoji: "📖" },
@@ -10,18 +11,21 @@ const mainTabs = [
 ] as const;
 
 const subLinks = [
-  { to: "/phonics", label: "Bảng Phonics" },
-  { to: "/pinyin", label: "Bảng Pinyin" },
-  { to: "/so-tu-vung", label: "Sổ từ vựng" },
-  { to: "/diem-danh", label: "Điểm danh" },
-  { to: "/quan-tri", label: "Phòng quản trị 🔒" },
+  { to: "/phonics", label: "Bảng Phonics", only: "Anh" },
+  { to: "/pinyin", label: "Bảng Pinyin", only: "Trung" },
+  { to: "/so-tu-vung", label: "Sổ từ vựng", only: null },
+  { to: "/diem-danh", label: "Điểm danh", only: null },
+  { to: "/quan-tri", label: "Phòng quản trị 🔒", only: null },
 ] as const;
 
 export function FoxLayout({ children }: { children: ReactNode }) {
   const fox = useFox();
+  const lang = useLangMode();
   const navigate = useNavigate();
   const current = learners.find((l) => l.id === fox.state.currentId);
   const stars = current ? (fox.state.stars[current.id] ?? 0) : 0;
+  const visibleSubLinks = subLinks.filter((s) => !s.only || s.only === lang.mode);
+
 
   return (
     <div className="min-h-screen bg-background">
