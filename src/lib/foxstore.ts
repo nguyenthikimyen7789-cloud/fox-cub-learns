@@ -16,7 +16,7 @@ const KEY = "hoc-vien-cao-nho-v1";
 
 const initial: FoxState = {
   currentId: null,
-  stars: { ty: 12, mao: 34, dau: 21, bome: 8 },
+  stars: { ty: 12, mao: 54, dau: 21, bome: 8 },
   vocab: starterVocab.map((v) => ({ ...v, learnerId: "mao", addedAt: new Date().toISOString() })),
   history: [],
   attendance: {},
