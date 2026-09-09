@@ -2,6 +2,9 @@ import { useState } from "react";
 import type { Lesson } from "@/lib/lessondata";
 import { speak } from "@/lib/speak";
 import { useFox } from "@/lib/foxstore";
+import { useLangMode } from "@/lib/langstore";
+import { WordText } from "./WordText";
+
 
 type Mode = "goc" | "dich" | "tat";
 
