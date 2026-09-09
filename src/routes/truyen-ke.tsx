@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FoxLayout, PageTitle, cardTint } from "@/components/FoxLayout";
 import { stories } from "@/lib/foxdata";
+import { useLangMode } from "@/lib/langstore";
 
 export const Route = createFileRoute("/truyen-ke")({
   head: () => ({
@@ -18,11 +19,13 @@ export const Route = createFileRoute("/truyen-ke")({
 });
 
 function StoriesPage() {
+  const lang = useLangMode();
+  const list = stories.filter((s) => s.lang === lang.mode);
   return (
     <FoxLayout>
-      <PageTitle emoji="📖" title="Truyện kể" sub="Chọn một câu chuyện để nghe và đọc theo." />
+      <PageTitle emoji="📖" title="Truyện kể" sub={`Truyện tiếng ${lang.mode} — chọn một câu chuyện để nghe và đọc theo.`} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {stories.map((s) => (
+        {list.map((s) => (
           <Link
             key={s.id}
             to="/lesson/$id"

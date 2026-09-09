@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FoxLayout, cardTint } from "@/components/FoxLayout";
 import { useFox } from "@/lib/foxstore";
 import { learners, stories, songs, games } from "@/lib/foxdata";
+import { useLangMode } from "@/lib/langstore";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,6 +25,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const fox = useFox();
+  const lang = useLangMode();
+  const storyList = stories.filter((s) => s.lang === lang.mode);
+  const songList = songs.filter((s) => s.lang === lang.mode);
   const current = learners.find((l) => l.id === fox.state.currentId);
 
   return (
@@ -42,7 +46,7 @@ function Home() {
             <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
               <Link
                 to="/lesson/$id"
-                params={{ id: stories[0]!.id }}
+                params={{ id: (storyList[0] ?? stories[0]!).id }}
                 className="rounded-full bg-primary px-5 py-2.5 font-bold text-primary-foreground shadow-soft transition hover:-translate-y-0.5"
               >
                 ▶ Học bài hôm nay
@@ -59,7 +63,7 @@ function Home() {
       </section>
 
       <Section title="📖 Truyện kể mới" to="/truyen-ke">
-        {stories.slice(0, 3).map((s) => (
+        {storyList.slice(0, 3).map((s) => (
           <Link
             key={s.id}
             to="/lesson/$id"
@@ -79,7 +83,7 @@ function Home() {
       </Section>
 
       <Section title="🎵 Bài hát vui" to="/bai-hat">
-        {songs.slice(0, 3).map((s) => (
+        {songList.slice(0, 3).map((s) => (
           <Link
             key={s.id}
             to="/bai-hat"

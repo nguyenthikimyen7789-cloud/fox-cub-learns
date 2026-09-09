@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FoxLayout, PageTitle, cardTint } from "@/components/FoxLayout";
 import { songs } from "@/lib/foxdata";
 import { useFox } from "@/lib/foxstore";
+import { useLangMode } from "@/lib/langstore";
 
 export const Route = createFileRoute("/bai-hat")({
   head: () => ({
@@ -21,28 +22,14 @@ export const Route = createFileRoute("/bai-hat")({
 
 function SongsPage() {
   const fox = useFox();
+  const lang = useLangMode();
   const [open, setOpen] = useState<string | null>(songs[0]!.id);
-  const [filter, setFilter] = useState<"all" | "Anh" | "Trung">("all");
-  const list = songs.filter((s) => filter === "all" || s.lang === filter);
+  const list = songs.filter((s) => s.lang === lang.mode);
 
   return (
     <FoxLayout>
-      <PageTitle emoji="🎵" title="Bài hát" sub="Hát theo để nhớ từ nhanh hơn." />
-      <div className="mb-4 flex gap-2">
-        {(["all", "Anh", "Trung"] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`rounded-full border-2 border-border px-4 py-1.5 text-sm font-bold transition ${
-              filter === f ? "bg-primary text-primary-foreground" : "bg-card text-foreground"
-            }`}
-          >
-            {f === "all" ? "Tất cả" : `Tiếng ${f}`}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
+      <PageTitle emoji="🎵" title="Bài hát" sub={`Bài hát tiếng ${lang.mode} — hát theo để nhớ từ nhanh hơn.`} />
+            <div className="grid gap-4 sm:grid-cols-2">
         {list.map((s) => (
           <div
             key={s.id}
