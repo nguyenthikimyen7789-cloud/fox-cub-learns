@@ -94,7 +94,7 @@ export function FoxLayout({ children }: { children: ReactNode }) {
             ))}
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            {subLinks.map((s) => (
+            {visibleSubLinks.map((s) => (
               <Link
                 key={s.to}
                 to={s.to}
