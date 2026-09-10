@@ -5,6 +5,7 @@ import { speak } from "@/lib/speak";
 import { useFox } from "@/lib/foxstore";
 import { useLangMode } from "@/lib/langstore";
 import { WordText } from "./WordText";
+import { SentenceTools } from "./SentenceTools";
 
 
 type Mode = "goc" | "dich" | "tat";
@@ -22,17 +23,7 @@ export function DialogueTab({
   const lang = useLangMode();
   const [mode, setMode] = useState<Mode>("dich");
 
-  const [recording, setRecording] = useState<number | null>(null);
-  const [recorded, setRecorded] = useState<number[]>([]);
-
-  function record(i: number) {
-    setRecording(i);
-    setTimeout(() => {
-      setRecording(null);
-      setRecorded((r) => (r.includes(i) ? r : [...r, i]));
-      fox.addStars(1, "Luyện nói", lesson.title);
-    }, 2500);
-  }
+  const [dictateLine, setDictateLine] = useState<number | null>(null);
 
   return (
     <div className="rounded-3xl border-2 border-border bg-card p-4 shadow-soft">
@@ -72,57 +63,44 @@ export function DialogueTab({
                 {i + 1}
               </button>
               <div className="min-w-0 flex-1">
-                {mode === "tat" ? (
-                  <p className="text-sm font-bold text-muted-foreground">🙈 Chữ đang tắt — hãy nghe và nói theo.</p>
-                ) : lang.mode === "Anh" ? (
-                  <>
-                    <p className="font-bold text-foreground">
-                      <WordText text={l.en} lang="Anh" vocab={lesson.vocab} />
-                    </p>
-                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
-                  </>
-                ) : (
-                  <>
-                    <p className="text-sm font-bold text-primary">{l.pinyin}</p>
-                    <p className="font-bold text-foreground">
-                      <WordText text={l.zh} lang="Trung" vocab={lesson.vocab} />
-                    </p>
-                    {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
-                  </>
-                )}
-                <div className="mt-2 flex flex-wrap gap-2">
-                  <button
-                    onClick={() =>
-                      lang.mode === "Anh" ? speak(l.en, "en-US") : speak(l.zh, "zh-CN")
-                    }
-                    className="rounded-full bg-pastel-sky px-3 py-1 text-xs font-bold"
-                  >
-                    🔊 Nghe câu
-                  </button>
-
-                  <button
-                    onClick={() => record(i)}
-                    className={`rounded-full px-3 py-1 text-xs font-extrabold ${
-                      recording === i
-                        ? "bg-destructive text-destructive-foreground"
-                        : recorded.includes(i)
-                          ? "bg-pastel-mint text-foreground"
-                          : "bg-primary text-primary-foreground"
-                    }`}
-                  >
-                    {recording === i ? "🔴 Đang thu…" : recorded.includes(i) ? "✅ Đã nhại" : "🎤 Nhại câu"}
-                  </button>
-                  <button
-                    onClick={() => {
-                      const w = lesson.vocab[i % lesson.vocab.length]!;
-                      fox.addVocab({ en: w.en, zh: w.zh, pinyin: w.pinyin, vi: w.vi });
-                      toast.success("Đã lưu từ vựng!");
-                    }}
-                    className="rounded-full bg-accent px-3 py-1 text-xs font-extrabold text-accent-foreground"
-                  >
-                    ⭐ Lưu từ
-                  </button>
+                <div className={dictateLine === i ? "blur-[2px] opacity-60 transition" : "transition"}>
+                  {mode === "tat" ? (
+                    <p className="text-sm font-bold text-muted-foreground">🙈 Chữ đang tắt — hãy nghe và nói theo.</p>
+                  ) : lang.mode === "Anh" ? (
+                    <>
+                      <p className="font-bold text-foreground">
+                        <WordText text={l.en} lang="Anh" vocab={lesson.vocab} />
+                      </p>
+                      {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-sm font-bold text-primary">{l.pinyin}</p>
+                      <p className="font-bold text-foreground">
+                        <WordText text={l.zh} lang="Trung" vocab={lesson.vocab} />
+                      </p>
+                      {mode === "dich" ? <p className="mt-1 text-sm text-muted-foreground">{l.vi}</p> : null}
+                    </>
+                  )}
                 </div>
+
+                <SentenceTools
+                  text={lang.mode === "Anh" ? l.en : l.zh}
+                  lang={lang.mode === "Anh" ? "Anh" : "Trung"}
+                  title={lesson.title}
+                  onDictateChange={(open) => setDictateLine(open ? i : null)}
+                />
+
+                <button
+                  onClick={() => {
+                    const w = lesson.vocab[i % lesson.vocab.length]!;
+                    fox.addVocab({ en: w.en, zh: w.zh, pinyin: w.pinyin, vi: w.vi });
+                    toast.success("Đã lưu từ vựng!");
+                  }}
+                  className="mt-2 rounded-full bg-accent px-3 py-1 text-xs font-extrabold text-accent-foreground"
+                >
+                  ⭐ Lưu từ
+                </button>
               </div>
             </div>
           </li>
