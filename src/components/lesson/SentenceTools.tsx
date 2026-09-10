@@ -42,10 +42,12 @@ export function SentenceTools({
   text,
   lang,
   title,
+  onDictateChange,
 }: {
   text: string;
   lang: "Anh" | "Trung";
   title: string;
+  onDictateChange?: (open: boolean) => void;
 }) {
   const fox = useFox();
   const speechLang = lang === "Anh" ? "en-US" : "zh-CN";
@@ -141,7 +143,10 @@ export function SentenceTools({
         </button>
         <button
           onClick={() => {
-            setDictating((d) => !d);
+            setDictating((d) => {
+              onDictateChange?.(!d);
+              return !d;
+            });
             setCheck(null);
           }}
           className={`rounded-full px-3 py-1 text-xs font-extrabold ${
