@@ -23,11 +23,11 @@ function similarity(a: string, b: string) {
   for (let i = 1; i <= m; i++) {
     cur[0] = i;
     for (let j = 1; j <= n; j++) {
-      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (x[i - 1] === y[j - 1] ? 0 : 1));
+      cur[j] = Math.min((prev[j] ?? 0) + 1, (cur[j - 1] ?? 0) + 1, (prev[j - 1] ?? 0) + (x[i - 1] === y[j - 1] ? 0 : 1));
     }
-    for (let j = 0; j <= n; j++) prev[j] = cur[j];
+    for (let j = 0; j <= n; j++) prev[j] = cur[j] ?? 0;
   }
-  const dist = prev[n];
+  const dist = prev[n] ?? 0;
   return Math.max(0, Math.round((1 - dist / Math.max(m, n)) * 100));
 }
 
