@@ -18,3 +18,7 @@
 ## Ngôn ngữ
 - [x] Công tắc 🇬🇧/🇨🇳 trên header, lưu localStorage
 - [x] Lọc truyện, bài hát và ẩn/hiện Phonics–Pinyin theo chế độ
+
+## Biên soạn bài học tự động (process-lesson)
+- [x] Nhận dữ liệu từ bảng inputs, gọi AI soạn bài, chèn lessons + readings/vocab/quiz/worksheet/games, cập nhật status completed
+- [x] Đã chạy thử thật thành công (bài "Cáo Nhỏ khám phá khu vườn", A1)

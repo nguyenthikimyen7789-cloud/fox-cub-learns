@@ -186,7 +186,57 @@ async function generateLesson(
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
-  let text = "";
+  let deltaText = "";
+  let finalText = "";
+
+  type ResponseEvent = {
+    type?: string;
+    delta?: string;
+    text?: string;
+    response?: {
+      output_text?: string | string[];
+      output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+    };
+  };
+
+  const extractFinal = (evt: ResponseEvent): string => {
+    const ot = evt.response?.output_text;
+    if (typeof ot === "string" && ot) return ot;
+    if (Array.isArray(ot) && ot.length) return ot.join("");
+    const items = evt.response?.output ?? [];
+    let out = "";
+    for (const item of items) {
+      for (const part of item.content ?? []) {
+        if (part?.type === "output_text" && part.text) out += part.text;
+      }
+    }
+    return out;
+  };
+
+  const handleLine = (line: string) => {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("data:")) return;
+    const payload = trimmed.slice(5).trim();
+    if (!payload || payload === "[DONE]") return;
+    let evt: ResponseEvent;
+    try {
+      evt = JSON.parse(payload) as ResponseEvent;
+    } catch {
+      return; // bỏ qua chunk không hợp lệ
+    }
+    if (evt.type === "response.output_text.delta" && evt.delta) {
+      deltaText += evt.delta;
+    } else if (evt.type === "response.output_text.done" && evt.text) {
+      finalText = evt.text;
+    } else if (
+      evt.type === "response.completed" ||
+      evt.type === "response.incomplete" ||
+      evt.type === "response.failed"
+    ) {
+      const done = extractFinal(evt);
+      if (done) finalText = done;
+    }
+  };
 
   while (true) {
     const { done, value } = await reader.read();
@@ -194,30 +244,23 @@ async function generateLesson(
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split("\n");
     buffer = lines.pop() ?? "";
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed.startsWith("data:")) continue;
-      const payload = trimmed.slice(5).trim();
-      if (!payload || payload === "[DONE]") continue;
-      try {
-        const evt = JSON.parse(payload) as {
-          type?: string;
-          delta?: string;
-          response?: { output_text?: string };
-        };
-        if (evt.type === "response.output_text.delta" && evt.delta) {
-          text += evt.delta;
-        } else if (evt.type === "response.completed" && evt.response?.output_text) {
-          if (!text) text = evt.response.output_text;
-        }
-      } catch {
-        // bỏ qua chunk không hợp lệ
-      }
-    }
+    for (const line of lines) handleLine(line);
   }
+  buffer += decoder.decode();
+  for (const line of buffer.split("\n")) handleLine(line);
 
-  if (!text.trim()) throw new Error("AI không trả về nội dung bài học.");
-  return JSON.parse(text) as LessonDraft;
+  const text = (finalText || deltaText).trim();
+  if (!text) throw new Error("AI không trả về nội dung bài học.");
+  try {
+    return JSON.parse(text) as LessonDraft;
+  } catch {
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    if (start >= 0 && end > start) {
+      return JSON.parse(text.slice(start, end + 1)) as LessonDraft;
+    }
+    throw new Error("Kết quả AI không phải JSON hợp lệ.");
+  }
 }
 
 export type ProcessResult = {
