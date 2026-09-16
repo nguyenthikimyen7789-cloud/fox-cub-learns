@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BaiHatRouteImport } from './routes/bai-hat'
 import { Route as DiemDanhRouteImport } from './routes/diem-danh'
 import { Route as PhonicsRouteImport } from './routes/phonics'
@@ -26,6 +27,11 @@ import { Route as ApiPublicProcessLessonRouteImport } from './routes/api/public/
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BaiHatRoute = BaiHatRouteImport.update({
@@ -91,6 +97,7 @@ const ApiPublicProcessLessonRoute = ApiPublicProcessLessonRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bai-hat': typeof BaiHatRoute
   '/diem-danh': typeof DiemDanhRoute
   '/phonics': typeof PhonicsRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bai-hat': typeof BaiHatRoute
   '/diem-danh': typeof DiemDanhRoute
   '/phonics': typeof PhonicsRoute
@@ -122,6 +130,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bai-hat': typeof BaiHatRoute
   '/diem-danh': typeof DiemDanhRoute
   '/phonics': typeof PhonicsRoute
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/bai-hat'
     | '/diem-danh'
     | '/phonics'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/bai-hat'
     | '/diem-danh'
     | '/phonics'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/bai-hat'
     | '/diem-danh'
     | '/phonics'
@@ -185,6 +197,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   BaiHatRoute: typeof BaiHatRoute
   DiemDanhRoute: typeof DiemDanhRoute
   PhonicsRoute: typeof PhonicsRoute
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bai-hat': {
@@ -297,6 +317,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   BaiHatRoute: BaiHatRoute,
   DiemDanhRoute: DiemDanhRoute,
   PhonicsRoute: PhonicsRoute,
