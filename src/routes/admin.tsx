@@ -300,7 +300,7 @@ function AdminDashboard() {
               ) : null}
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link
-                  to="/lesson/$id"
+                  to="/lessons/$id"
                   params={{ id: l.id }}
                   className="rounded-2xl border-2 border-border px-3 py-1.5 text-sm font-bold text-foreground"
                 >
