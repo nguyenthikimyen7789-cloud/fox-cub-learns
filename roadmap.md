@@ -22,3 +22,7 @@
 ## Biên soạn bài học tự động (process-lesson)
 - [x] Nhận dữ liệu từ bảng inputs, gọi AI soạn bài, chèn lessons + readings/vocab/quiz/worksheet/games, cập nhật status completed
 - [x] Đã chạy thử thật thành công (bài "Cáo Nhỏ khám phá khu vườn", A1)
+
+## Trang chi tiết bài học tự động /lessons/$id
+- [x] Tiêu đề, cấp độ, ngôn ngữ và bài đọc có bật/tắt Pinyin
+- [x] Thẻ từ vựng, trắc nghiệm tương tác và trò chơi ghép từ
