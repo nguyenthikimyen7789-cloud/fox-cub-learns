@@ -175,13 +175,13 @@ function QuizSection({ quiz }: { quiz: Quiz[] }) {
 function readGameItems(game: Game | undefined): string[] {
   const data = game?.game_data;
   if (!data || typeof data !== "object" || Array.isArray(data)) return [];
-  const items = data.items;
+  const items = data["items"];
   return Array.isArray(items) ? items.filter((item): item is string => typeof item === "string") : [];
 }
 
 function gameDescription(game: Game | undefined): string {
   const data = game?.game_data;
-  return data && typeof data === "object" && !Array.isArray(data) && typeof data.description === "string" ? data.description : "Ghép mỗi từ với đúng nghĩa tiếng Việt của từ đó.";
+  return data && typeof data === "object" && !Array.isArray(data) && typeof data["description"] === "string" ? data["description"] : "Ghép mỗi từ với đúng nghĩa tiếng Việt của từ đó.";
 }
 
 function makePairs(game: Game | undefined, vocabulary: Vocab[]): MatchPair[] {
@@ -214,9 +214,10 @@ function MatchingGame({ games, vocabulary }: { games: Game[]; vocabulary: Vocab[
   }, [pairs]);
 
   useEffect(() => {
-    if (!wordId || !meaningId) return;
+    if (!wordId || !meaningId) return undefined;
     if (wordId === meaningId) { setMatched((old) => [...old, wordId]); setWordId(null); setMeaningId(null); setMistake(false); }
     else { setMistake(true); const timer = window.setTimeout(() => { setWordId(null); setMeaningId(null); setMistake(false); }, 650); return () => window.clearTimeout(timer); }
+    return undefined;
   }, [wordId, meaningId]);
 
   function restart() { setWords(shuffled(pairs)); setMeanings(shuffled(pairs)); setWordId(null); setMeaningId(null); setMatched([]); setMistake(false); }
