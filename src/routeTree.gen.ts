@@ -22,6 +22,7 @@ import { Route as SoTuVungRouteImport } from './routes/so-tu-vung'
 import { Route as TroChoiRouteImport } from './routes/tro-choi'
 import { Route as TruyenKeRouteImport } from './routes/truyen-ke'
 import { Route as LessonIdRouteImport } from './routes/lesson.$id'
+import { Route as LessonsIdRouteImport } from './routes/lessons.$id'
 import { Route as ApiPublicProcessLessonRouteImport } from './routes/api/public/process-lesson'
 
 const IndexRoute = IndexRouteImport.update({
@@ -89,6 +90,11 @@ const LessonIdRoute = LessonIdRouteImport.update({
   path: '/lesson/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LessonsIdRoute = LessonsIdRouteImport.update({
+  id: '/lessons/$id',
+  path: '/lessons/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicProcessLessonRoute = ApiPublicProcessLessonRouteImport.update({
   id: '/api/public/process-lesson',
   path: '/api/public/process-lesson',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
   '/lesson/$id': typeof LessonIdRoute
+  '/lessons/$id': typeof LessonsIdRoute
   '/api/public/process-lesson': typeof ApiPublicProcessLessonRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
   '/lesson/$id': typeof LessonIdRoute
+  '/lessons/$id': typeof LessonsIdRoute
   '/api/public/process-lesson': typeof ApiPublicProcessLessonRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/tro-choi': typeof TroChoiRoute
   '/truyen-ke': typeof TruyenKeRoute
   '/lesson/$id': typeof LessonIdRoute
+  '/lessons/$id': typeof LessonsIdRoute
   '/api/public/process-lesson': typeof ApiPublicProcessLessonRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/tro-choi'
     | '/truyen-ke'
     | '/lesson/$id'
+    | '/lessons/$id'
     | '/api/public/process-lesson'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/tro-choi'
     | '/truyen-ke'
     | '/lesson/$id'
+    | '/lessons/$id'
     | '/api/public/process-lesson'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/tro-choi'
     | '/truyen-ke'
     | '/lesson/$id'
+    | '/lessons/$id'
     | '/api/public/process-lesson'
   fileRoutesById: FileRoutesById
 }
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   TroChoiRoute: typeof TroChoiRoute
   TruyenKeRoute: typeof TruyenKeRoute
   LessonIdRoute: typeof LessonIdRoute
+  LessonsIdRoute: typeof LessonsIdRoute
   ApiPublicProcessLessonRoute: typeof ApiPublicProcessLessonRoute
 }
 
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lessons/$id': {
+      id: '/lessons/$id'
+      path: '/lessons/$id'
+      fullPath: '/lessons/$id'
+      preLoaderRoute: typeof LessonsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/process-lesson': {
       id: '/api/public/process-lesson'
       path: '/api/public/process-lesson'
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   TroChoiRoute: TroChoiRoute,
   TruyenKeRoute: TruyenKeRoute,
   LessonIdRoute: LessonIdRoute,
+  LessonsIdRoute: LessonsIdRoute,
   ApiPublicProcessLessonRoute: ApiPublicProcessLessonRoute,
 }
 export const routeTree = rootRouteImport
